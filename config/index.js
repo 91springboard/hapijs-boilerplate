@@ -4,8 +4,10 @@ const nodeEnv = process.env.NODE_ENV;
 if (!nodeEnv) {
   throw Error('You forgot to set NODE_ENV environment variable');
 }
-/* eslint-disable import/no-dynamic-require */
 
+require('dotenv').config({ path: `${nodeEnv}.env` });
+
+/* eslint-disable import/no-dynamic-require */
 const config = require(`./${nodeEnv}`);
 
 module.exports = config;

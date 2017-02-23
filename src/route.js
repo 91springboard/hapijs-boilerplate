@@ -1,5 +1,3 @@
-const log = require('./logging');
-
 const route = [];
 
 route.push({
@@ -9,7 +7,6 @@ route.push({
     tags: ['api'],
     description: 'Hello World',
     handler: (request, reply) => {
-      log.info('Received request');
       reply('Hello Hapijs!');
     }
   }

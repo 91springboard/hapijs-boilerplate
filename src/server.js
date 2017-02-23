@@ -3,9 +3,7 @@ const Good = require('good');
 const HapiSwagger = require('hapi-swagger');
 const Inert = require('inert');
 const Vision = require('vision');
-const Blipp = require('blipp');
 const config = require('../config');
-const log = require('./logging');
 const Pack = require('../package.json');
 const route = require('./route');
 
@@ -18,7 +16,6 @@ server.connection({
 });
 
 server.register([
-  Blipp,
   Inert,
   Vision,
   {
@@ -39,31 +36,8 @@ server.register([
       reporters: {
         consoleReporter: [
           {
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [
-              {
-                response: '*',
-                log: '*'
-              }
-            ]
-          },
-          {
             module: 'good-console'
           }, 'stdout'],
-        fileReporter: [
-          {
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{ ops: '*' }]
-          }, {
-            module: 'good-squeeze',
-            name: 'SafeJson'
-          }, {
-            module: 'good-file',
-            args: [config.server.logs.filePath]
-          }
-        ]
       }
     }
   }
@@ -75,9 +49,10 @@ server.register([
   server.route(route);
 
   server.start((err) => {
+    /* eslint-disable no-console */
     if (err) {
-      log.error({ err }, 'Error occurred while starting server !!!');
+      console.error({ err }, 'Error occurred while starting server !!!');
     }
-    log.info(`Server started at http://${config.server.host}:${config.server.port}`);
+    console.log(`Server started at http://${config.server.host}:${config.server.port}`);
   });
 });
